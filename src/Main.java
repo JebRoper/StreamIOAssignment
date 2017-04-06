@@ -20,14 +20,20 @@ public class Main {
         String json = mapper.writeValueAsString(parent);
         System.out.println("\n\tparent json is: " + json);
 
-        Parent parent2 = mapper.readValue(json, Parent.class);
+
+        PrintWriter pw = new PrintWriter(new FileWriter("parent.json"));
+        pw.println(json);
+        pw.flush();
+        pw.close();
+
+        BufferedReader br = new BufferedReader(new FileReader("parent.json"));
+        String jsonFromFile = br.readLine();
+        System.out.println("\n\tjson from the file is" + jsonFromFile);
+        br.close();
+
+        Parent parent2 = mapper.readValue(jsonFromFile, Parent.class);
         System.out.println("\n\tparent2 json is: " + parent2);
 
-        FileReader in2 = new FileReader("parent.ser");
-        FileWriter out2 = new FileWriter("parent.copy");
-
-        out2.flush();
-        out2.close();
 
         //object serialization
         System.out.println("\nBefore writing the parent file out \n\t " + parent);
