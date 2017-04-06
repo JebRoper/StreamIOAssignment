@@ -1,4 +1,6 @@
 import java.io.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class Main {
 
@@ -11,8 +13,21 @@ public class Main {
         parent.setCount(40);
         parent.setSecond("Dave");
         parent.setChild(child);
+        System.out.println("parent before\n\t" + parent);
 
-        System.out.println("Before writing the parent file out \n\t " + parent);
+        //json serialization
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(parent);
+        System.out.println("\n\tparent json is: " + json);
+
+        Parent parent2 = mapper.readValue(json, Parent.class);
+        System.out.println("\n\tparent2 json is: " + parent2);
+
+        FileReader in2 = new FileReader("parent.ser");
+        FileWriter out2 = new FileWriter("parent.copy");
+
+        //object serialization
+        System.out.println("\nBefore writing the parent file out \n\t " + parent);
         FileOutputStream fos = new FileOutputStream("parent.ser");
         ObjectOutputStream out = new ObjectOutputStream(fos);
         out.writeObject(parent);
@@ -21,8 +36,8 @@ public class Main {
 
         FileInputStream fis = new FileInputStream("parent.ser");
         ObjectInputStream ins = new ObjectInputStream(fis);
-        Parent parent2 = (Parent) ins.readObject();
-        System.out.println("After reading the file\n\t " + parent2);
+        Parent parent3 = (Parent) ins.readObject();
+        System.out.println("\nAfter reading the file\n\t " + parent3);
         ins.close();
 
 
