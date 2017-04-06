@@ -26,6 +26,9 @@ public class Main {
         FileReader in2 = new FileReader("parent.ser");
         FileWriter out2 = new FileWriter("parent.copy");
 
+        out2.flush();
+        out2.close();
+
         //object serialization
         System.out.println("\nBefore writing the parent file out \n\t " + parent);
         FileOutputStream fos = new FileOutputStream("parent.ser");
